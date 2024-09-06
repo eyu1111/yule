@@ -1,0 +1,52 @@
+
+local success, OrionLib = pcall(function()
+    return loadstring(game:HttpGet("https://raw.githubusercontent.com/shlexware/Orion/main/source"))()
+end)
+
+
+if not success then
+    warn("无法加载 OrionLib: ", OrionLib)
+    return  
+end
+
+
+local Window = OrionLib:MakeWindow({
+    Name = "宇内部娱乐脚本",  
+    HidePremium = false,
+    SaveConfig = true,
+    ConfigFolder = "MyScripts"
+})
+
+
+local MainTab = Window:MakeTab({
+    Name = "画画",  -- Tab 的标题为“画画”
+    Icon = "rbxassetid://4483345998",  
+    PremiumOnly = false
+})
+
+
+MainTab:AddButton({
+    Name = "加载并运行 Pastebin 脚本",  
+    Callback = function()
+        local success, result = pcall(function()
+            -- 从 Pastebin 加载脚本
+            local loadedScriptContent = game:HttpGet('https://pastebin.com/raw/q6WWVCKC')
+            loadstring(loadedScriptContent)()  
+        end)
+
+        
+        if success then
+            print("Pastebin 脚本加载并运行成功")
+        else
+            warn("加载或运行 Pastebin 脚本时出错: ", result)
+        end
+    end
+})
+
+
+MainTab:AddLabel("点击按钮以加载并运行脚本")
+
+
+OrionLib:Init()
+
+print("Orion UI 已成功初始化")
