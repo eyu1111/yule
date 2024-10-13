@@ -1,52 +1,32 @@
+local whitelist = {
+    ["playa7176"] = true,
+    ["fjsklll5"] = true
+}
 
-local success, OrionLib = pcall(function()
-    return loadstring(game:HttpGet("https://raw.githubusercontent.com/shlexware/Orion/main/source"))()
-end)
+local Players = game:GetService("Players")
+local StarterGui = game:GetService("StarterGui")
+local player = Players.LocalPlayer
 
-
-if not success then
-    warn("无法加载 OrionLib: ", OrionLib)
-    return  
+if not whitelist[player.Name] then
+    StarterGui:SetCore("SendNotification", {
+        Title = "权限检查",
+        Text = "你没有权限执行此脚本。",
+        Duration = 5
+    })
+    return
 end
 
-
-local Window = OrionLib:MakeWindow({
-    Name = "宇内部娱乐脚本",  
-    HidePremium = false,
-    SaveConfig = true,
-    ConfigFolder = "MyScripts"
+StarterGui:SetCore("SendNotification", {
+    Title = "成功",
+    Text = "你已成功添加白名单",
+    Duration = 5
 })
 
-
-local MainTab = Window:MakeTab({
-    Name = "画画",  -- Tab 的标题为“画画”
-    Icon = "rbxassetid://4483345998",  
-    PremiumOnly = false
-})
-
-
-MainTab:AddButton({
-    Name = "加载并运行 Pastebin 脚本",  
-    Callback = function()
-        local success, result = pcall(function()
-            -- 从 Pastebin 加载脚本
-            local loadedScriptContent = game:HttpGet('https://pastebin.com/raw/q6WWVCKC')
-            loadstring(loadedScriptContent)()  
-        end)
-
-        
-        if success then
-            print("Pastebin 脚本加载并运行成功")
-        else
-            warn("加载或运行 Pastebin 脚本时出错: ", result)
-        end
-    end
-})
-
-
-MainTab:AddLabel("点击按钮以加载并运行脚本")
-
-
-OrionLib:Init()
-
-print("Orion UI 已成功初始化")
+loadstring(game:HttpGet("https://raw.githubusercontent.com/rbxluau/Roblox/main/"..(({
+    [2820580801] = "Ohio",
+    [111958650] = "Arsenal",
+    [2440500124] = "Doors",
+    [3476371299] = "RaceClicker",
+    [3085257211] = "RainbowFriends",
+    [73885730] = "PrisonLife"
+})[game.GameId] or "Universal")..".lua"))()
